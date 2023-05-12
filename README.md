@@ -1,5 +1,11 @@
 # spring_work
 spring 3.0 수업내용입니다.
+
+<hr>
+초기세팅 lombok파일은 sts-bundle\sts-3.9.18.RELEASE 경로에 넣으면 된다.
+MySQL버전은 8.0.33
+<hr>
+
 >23-05-11
 >>RequestMapping, GetMapping, PostMapping
 >>ResponseMapping, Model, ModelAttribute, ModelAndView, Redirect
