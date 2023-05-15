@@ -12,14 +12,21 @@ public interface IBoardDAO {
 	//전체 게시글 조회
 	List<BoardVO> getArticles();
 	
-	//게시글 상세보기
+	//게시글 상세 보기
 	BoardVO getArticle(int bno);
 	
 	//게시글 삭제
-	void delArticle(int bno);
+	void deleteArticle(int bno);
 	
 	//게시글 수정
 	void updateArticle(BoardVO vo);
 	
-	
 }
+
+
+
+
+
+
+
+
