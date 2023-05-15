@@ -22,7 +22,7 @@ MySQL버전은 8.0.33
 >>MyBatis를 이용하여 필요한 SQL문을 따로 모아 관리할수 있다.
 >>이는 기존 jdbc보다 훨씬 가독성이 좋아지기에 실무에서도 많이 사용되는 툴이기도 하다.
 >>>sql문을 모아둔 *mapper.xml을 작성하고 (Interface Mapper.xml은 spring에서 권장하는 선언방식)
->>>servlet-config(MyWeb의 해당파일은 db-config)에 xml의 경로를 지정한다
+>>>servlet-context(MyWeb의 해당파일은 db-config)에 xml의 경로를 지정한다
 ```
 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	<property name="dataSource" ref="ds" />
@@ -32,3 +32,6 @@ MySQL버전은 8.0.33
 ```
 
 >>spring-test를 이용하면 별도의 서버없이도 컴파일 가능 여부를 간단하게 진단이 가능하다
+++	404에러의 원인은 대부분(현재까진) 
+	root-context, servlet-context에서 경로지정의 오타인 경우, 생성되지않은 데이터베이스를 지정한 경우
+	404에러는 페이지를 로딩할 수 없을때, 탐색이 안될 때 뜨는 에러다.
