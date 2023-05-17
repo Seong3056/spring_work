@@ -2,14 +2,37 @@
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
+<!--  
+	 자바를 이용한 백엔드 로직을 작성하다 보면, 결과를학인하기위해
+	  -->
 	<!-- Appenders -->
+	@appendd<!-- needed for ContextLoaderListener -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>location</param-value>
+	</context-param>
+
+	<!-- Bootstraps the root web application context before servlet initialization -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
-	
+	<!-- 날짜별 로그 파일 생성 (에러만) -->
+    <appender name="errFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="Threshold" value="ERROR" />
+        <param name="File" value="C:/LOG/error.log" />
+        <param name="Append" value="true" />
+        <!-- <param name="MaxFileSize" value="100MB" /> -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p [%C{10}] %m%n" />
+        </layout>
+    </appender>
 	<!-- Application Loggers -->
 	<logger name="com.spring.myweb">
 		<level value="info" />
@@ -32,10 +55,52 @@
 		<level value="info" />
 	</logger>
 
+ 	<!--  SQL Logger -->
+	
+	<!-- DB 연결에 관련된 이벤트를 기록(Connection pooll등...) -->
+	<logger name="jdbc.connecion" additivity="false">
+		<level value="warn" />
+		<appender-ref ref="console"/>
+	</logger>
+	
+	<!-- ResultSet을 제외한 모든 JDBC 객체 호출 내역을 기록 -->
+	<logger name="jdbc.audit" additivity="false">
+		<level value="warn" />
+		<appender-ref ref="console" />
+	</logger>
+	
+	<!-- ResultSet을 포함한 모든 JDBC 객체 호출 내역을 기록 -->
+	<logger name="jdbc.resultset" additivity="false">
+		<level value="warn" />
+		<appender-ref ref="console" />
+	</logger>
+	
+	<!-- SQL문만 기록 (?값이 드러난다) -->
+	<logger name="jdbc.sqlonly" additivity="false">
+		<level value="info" />
+		<appender-ref ref="console" />
+	</logger>
+	
+	<!-- table 모양으로 조회된 내용을 기록합니다. -->
+	<logger name="jdbc.resultsettable" additivity="false">
+		<level value="info" />
+		<appender-ref ref="console" />
+	</logger>
+	
+	<!-- 해당 SQL을 실행 시키는 데 소요된 시간 정보 기록(밀리초) -->
+	<logger name="jdbc.sqltiming" additivity="false">
+		<level value="info" />
+		<appender-ref ref="console" />
+	</logger>
+	
+	
+	
 	<!-- Root Logger -->
 	<root>
-		<priority value="info" />
+		<priority value="warn" />
 		<appender-ref ref="console" />
+		<appender-ref ref="errFile" />
+		<appender-ref ref="rollingFile" />
 	</root>
 	
 </log4j:configuration>

@@ -48,8 +48,14 @@ MySQL버전은 8.0.33
 		model.addAttribute("article", service.getContent(bno));
 		return "freeboard/freeDetail";
 	}
-	<!-- GetMapping에서 파라미터값을 { ... }안에 넣고 객체의 매개변수에서 @PathVariable("...") int ... 
+	<!-- GetMapping에서 파라미터값을 { ... }안에 넣고 객체의 매개변수에서 《 @PathVariable("...") int ... 》
 		 같은 방식으로 uri에서 넘어온 정보를 받을수 있다. -->
 ```
 >>글 수정페이지 내 글 수정 및 삭제와 같이 form 내 submit을 수행할 버튼이 2개이상이라면
 >>js를 이용하여 버튼에 맞는 속성을 form 속성에 변경하여 submit을 수행할 수 있다.
+
+>>23-05-17
+>>페이지 알고리즘 구현
+>>해당 페이지에 정보를 넘길때 파라미터값을 이용하여 여러 정보를 넘길수 있다.
+>>반대로 다시 돌아올때 html문에서 value 값을 파라미터값으로 설정하여 동적 웹페이지로 구현이 가능하다.
+>>특정 페이지안에서 submit이 2번이상 진행해야하는 경우 <br> js를 활용하여 action의 속성값을 변경한 뒤 submit을 진행하면 원하는 submit을 수행하게 할 수 있다.
