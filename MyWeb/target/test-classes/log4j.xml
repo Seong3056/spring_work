@@ -77,7 +77,7 @@
 	
 	<!-- SQL문만 기록 (?값이 드러난다) -->
 	<logger name="jdbc.sqlonly" additivity="false">
-		<level value="info" />
+		<level value="warn" />
 		<appender-ref ref="console" />
 	</logger>
 	
