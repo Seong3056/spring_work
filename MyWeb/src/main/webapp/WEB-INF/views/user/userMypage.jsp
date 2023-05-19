@@ -1,6 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+    <%@ include file="../include/header.jsp" %>
 	<section>
         <!--Toggleable / Dynamic Tabs긁어옴-->
         <div class="container">
@@ -24,11 +24,11 @@
                                 <tbody class="m-control">
                                     <tr>
                                         <td class="m-title">*ID</td>
-                                        <td><input class="form-control input-sm"></td>
+                                        <td><input class="form-control input-sm" value="${info.userId}" readonly></td>
                                     </tr>
                                     <tr>
                                         <td class="m-title">*이름</td>
-                                        <td><input class="form-control input-sm"></td>
+                                        <td><input class="form-control input-sm" value="${info.userName}"></td>
                                     </tr>
                                     <tr>
                                         <td class="m-title">*비밀번호</td>
@@ -121,3 +121,4 @@
             </div>
         </div>
     </section>
+    <%@ include file="../include/footer.jsp" %>
