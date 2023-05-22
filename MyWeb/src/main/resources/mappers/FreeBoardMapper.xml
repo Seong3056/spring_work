@@ -43,7 +43,14 @@
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*) FROM freeboard
 		<include refid="search" />
+		<include refid="myPage" />
 	</select>
+	
+	<sql id="myPage">
+    	<if test="loginId != null">
+    		WHERE user_id = ${userId}
+    	</if>
+    </sql>
 	
 	<select id="getContent" resultType="board">
 		SELECT * FROM freeboard
