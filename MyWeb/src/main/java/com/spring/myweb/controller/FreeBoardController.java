@@ -27,12 +27,13 @@ public class FreeBoardController {
 	//목록 화면
 	@GetMapping("/freeList")
 	public void freeList(PageVO vo, Model model) {
-	
+		
 		PageCreator pc = new PageCreator(vo, service.getTotal(vo));
+		
 		log.info(pc.toString());
 		
 		model.addAttribute("boardList", service.getList(vo));
-		model.addAttribute("pc",pc);
+		model.addAttribute("pc", pc);
 	}
 	
 	//글쓰기 페이지 열어주는 메서드
@@ -47,17 +48,20 @@ public class FreeBoardController {
 		service.regist(vo);
 		return "redirect:/freeboard/freeList";
 	}
-	/*
-	 @PathVariable URL 경로에 변수를 포함시켜 주는 방식
-	 null이나 공백이 들어갈 수 있는 파라미터라면 적용하지 않는것을 추천
-	 파라미터 값에 .이 포함되어 있다면 .뒤의 값은 잘린다는것을 알아두세요
-	 {}안에 변수명을 지어주시고, @PathVariable안에 괄호 영역을 지정해서 가져옵니다.
-	 */
+	
 	//글 상세 보기 처리
+	
+	/*
+	 @PathVariable은 URL 경로에 변수를 포함시켜 주는 방식
+	 null이나 공백이 들어갈 수 있는 파라미터라면 적용하지 않는 것을 추천
+	 파라미터 값에 .이 포함되어 있다면 .뒤의 값은 잘린다는 것을 알아두세요.
+	 {}안에 변수명을 지어주시고, @PathVariable 괄호 안에 영역을 지목해서
+	 값을 받아옵니다.
+	 */
 	@GetMapping("/content/{bno}")
-	public String getContent(@PathVariable int bno, @ModelAttribute("p") PageVO vo, Model model) {
+	public String getContent(@PathVariable int bno, @ModelAttribute("p") PageVO vo
+			, Model model) {
 		model.addAttribute("article", service.getContent(bno));
-		
 		return "freeboard/freeDetail";
 	}
 	

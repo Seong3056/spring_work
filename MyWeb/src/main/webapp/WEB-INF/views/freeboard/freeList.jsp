@@ -18,17 +18,17 @@
                     
                     <!--form select를 가져온다 -->
                     <form action="<c:url value='/freeboard/freeList' />">
-		    <div class="search-wrap">
-                       <button type="submit" class="btn btn-info search-btn">검색</button>
-                       <input type="text" name="keyword" class="form-control search-input" value="${pc.paging.keyword }">
-                       <select name="condition" class="form-control search-select" >
-                            <option value="title"  ${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
-                            <option value="content" ${pc.paging.condition == 'content' ? 'selected' : ''}>내용</option>
-                            <option value="writer" ${pc.paging.condition == 'writer' ? 'selected' : ''}>작성자</option>
-                            <option value="titleContent" ${pc.paging.condition == 'titleContent' ? 'selected' : ''}>제목+내용</option>
-                       </select>
-                    </div>
-		    </form>
+					    <div class="search-wrap">
+	                       <button type="submit" class="btn btn-info search-btn">검색</button>
+	                       <input type="text" name="keyword" class="form-control search-input" value="${pc.paging.keyword}">
+	                       <select name="condition" class="form-control search-select">
+	                            <option value="title" ${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
+	                            <option value="content" ${pc.paging.condition == 'content' ? 'selected' : ''}>내용</option>
+	                            <option value="writer" ${pc.paging.condition == 'writer' ? 'selected' : ''}>작성자</option>
+	                            <option value="titleContent" ${pc.paging.condition == 'titleContent' ? 'selected' : ''}>제목+내용</option>
+	                       </select>
+	                    </div>
+					</form>
                    
                     <table class="table table-bordered">
                         <thead>
@@ -68,20 +68,18 @@
                     <div class="text-center">
                     <hr>
                     <ul id="pagination" class="pagination pagination-sm">
-
                     	<c:if test="${pc.prev}">
-	                        <li><a href="#">이전</a></li>
-                        </c:if>                       
+                        	<li><a href="#" data-pagenum="${pc.beginPage-1}">이전</a></li>
+                        </c:if>
                         
-                        <c:forEach var="num" begin="${pc.beginPage}" end="${pc.endPage }">
-                        <li class="${pc.paging.pageNum == num ? 'active' : ''}">
-                        <a href="#" data-pagenum="${num}">${num}</a>
-                        </li>
+                        <c:forEach var="num" begin="${pc.beginPage}" end="${pc.endPage}">
+	                        <li class="${pc.paging.pageNum == num ? 'active' : ''}">
+	                        	<a href="#" data-pagenum="${num}">${num}</a>
+	                        </li>
                         </c:forEach>
                         
-
                         <c:if test="${pc.next}">
-	                        <li><a href="#" data-pagenum="${pc.endPage+1 }">다음</a></li>
+                        	<li><a href="#" data-pagenum="${pc.endPage+1}">다음</a></li>
                         </c:if>
                     </ul>
                     <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/regist'">글쓰기</button>
@@ -91,6 +89,7 @@
                     <input type="hidden" name="cpp" value="${pc.paging.cpp}">
                     <input type="hidden" name="keyword" value="${pc.paging.keyword}">
                     <input type="hidden" name="condition" value="${pc.paging.condition}">
+					
 		    </form>
 
                 </div>
@@ -100,32 +99,47 @@
 	
 	
 	<%@ include file="../include/footer.jsp" %>
+	
+	<script>
+		
+        //브라우저 창이 로딩이 완료된 후에 실행할 것을 보장하는 이벤트.
+        window.onload = function() {
 
-    <script>
-        
-    //브라우저 창이 로딩이 완료 된 후 실행할 것을 보장
-    window.onload = function (){
+            //사용자가 페이지 관련 버튼을 클릭했을 때, 
+            //기존에는 각각의 a태그의 href에다가 각각 다른 url을 작성해서 보내줬다면,
+            //이번에는 클릭한 그 버튼이 무엇인지를 확인해서 그 버튼에 맞는 페이지 정보를
+            //자바스크립트로 끌고와서 요청을 보내 주겠습니다.
+            document.getElementById('pagination').addEventListener('click', e => {
+                if(!e.target.matches('a')) {
+                    return;
+                }
 
-        //사용자가 페이지 관련 버튼을 클릭헀을 때, 
-        //기존에는 각각의 a태그의 herf에다가  고유url을 작성해서 보내줬다면,
-        //이번에는 클릭한 그버튼이 무엇인지를 확인해서 그버튼에 맞는 페이지 정보를 
-        //자바스크립트로 끌고와서 요청을 보내기
-        document.getElementById('pagination').addEventListener('click', e => {
-            if(!e.target.matches('a')) return;
+                e.preventDefault(); //a태그의 고유 기능 중지.
+
+                //현재 이벤트가 발생한 요소(버튼)의
+                //data-pagenum의 값을 얻어서 변수에 저장.
+                const value = e.target.dataset.pagenum;
+
+                //페이지 버튼들을 감싸고 있는 form태그를 지목하여
+                //그 안에 숨겨져 있는 pageNum이라는 input태그의 value에
+                //위에서 얻은 data-pagenum의 값을 삽입한 후 submit
+                document.pageForm.pageNum.value = value;
+                document.pageForm.submit();
+
+            }); 
             
-            e.preventDefault();
-            
-            const num = e.target.dataset.pagenum;
 
-            //페이지 버튼들을 감싸고 있는form태그를 지목하여
-            //그 안에 숨겨져있는 pageNum이라는 input태그의 value에 
-            //위에서 얻은 data-pagenum의 값을 삽입한 후 submit
-            document.pageForm.pageNum.value= num;
-            document.pageForm.submit(); 
-            
-        })
-    }
 
-    
-    </script>
+        }
+
+	</script>
+	
+	
+	
+	
+	
+	
+	
+
+
 

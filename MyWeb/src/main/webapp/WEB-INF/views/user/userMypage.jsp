@@ -3,7 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <%@ include file="../include/header.jsp" %>
+
 <section>
     <!--Toggleable / Dynamic Tabs긁어옴-->
     <div class="container">
@@ -29,7 +31,7 @@
                                     <tr>
                                         <td class="m-title">*ID</td>
                                         <td><input class="form-control input-sm" name="userId"
-                                                value="${userInfo.userId}" readonly></td>
+                                                value="${login}" readonly></td>
                                     </tr>
                                     <tr>
                                         <td class="m-title">*이름</td>
@@ -44,7 +46,6 @@
                                         <td class="m-title">*비밀번호확인</td>
                                         <td><input class="form-control input-sm" name="userPwChk"></td>
                                     </tr>
-
                                     <tr>
                                         <td class="m-title">*E-mail</td>
                                         <td>
@@ -71,7 +72,6 @@
                                                 확인</button>
                                         </td>
                                     </tr>
-
                                     <tr>
                                         <td class="m-title">*휴대폰</td>
                                         <td>
@@ -86,8 +86,8 @@
                                     </tr>
                                     <tr>
                                         <td class="m-title">*우편번호</td>
-                                        <td><input class="form-control input-sm" readonly name="addrZipNum"
-                                                value="${userInfo.addrZipNum}">
+                                        <td><input class="form-control input-sm" name="addrZipNum"
+                                                value="${userInfo.addrZipNum}" readonly>
                                             <button type="button" class="btn btn-primary" id="addBtn">주소찾기</button>
                                         </td>
                                     </tr>
@@ -112,7 +112,8 @@
                     </div>
                     <!-- 첫번째 토글 끝 -->
 
-                    <!-- 두번째 토글 시작 -->
+
+                    <!-- 두번째 토글 메뉴의 시작 -->
                     <div id="myBoard" class="tab-pane fade">
                         <p>*내 게시글 관리</p>
                         <form>
@@ -125,14 +126,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:if test="${fn:length(userInfo.userBoardList)>0 }">
-                                        <c:forEach var="vo" items="${userInfo.userBoardList} ">
+
+                                    <c:if test="${fn:length(userInfo.userBoardList) > 0}">
+                                        <c:forEach var="vo" items="${userInfo.userBoardList}">
                                             <tr>
                                                 <td>${vo.bno}</td>
-                                                <td><a href="##">${vo.title }</a></td>
+                                                <td><a href="##">${vo.title}</a></td>
                                                 <td>
-                                                    <fmt:parseDate value="${vo.regDate }"
-                                                        pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDate" type="both" />
+                                                    <fmt:parseDate value="${vo.regDate}" pattern="yyyy-MM-dd'T'HH:mm:ss"
+                                                        var="parsedDate" type="both" />
                                                     <fmt:formatDate value="${parsedDate}"
                                                         pattern="yyyy년 MM월 dd일 HH:mm" />
                                                 </td>
@@ -141,25 +143,24 @@
                                         <div class="text-center">
                                             <hr>
                                             <ul id="pagination" class="pagination pagination-sm">
-
                                                 <c:if test="${pc.prev}">
-                                                    <li><a href="#">이전</a></li>
+                                                    <li><a href="#" data-pagenum="${pc.beginPage-1}">이전</a></li>
                                                 </c:if>
 
-                                                <c:forEach var="num" begin="${pc.beginPage}" end="${pc.endPage }">
+                                                <c:forEach var="num" begin="${pc.beginPage}" end="${pc.endPage}">
                                                     <li class="${pc.paging.pageNum == num ? 'active' : ''}">
                                                         <a href="#" data-pagenum="${num}">${num}</a>
                                                     </li>
                                                 </c:forEach>
 
-
                                                 <c:if test="${pc.next}">
-                                                    <li><a href="#" data-pagenum="${pc.endPage+1 }">다음</a></li>
+                                                    <li><a href="#" data-pagenum="${pc.endPage+1}">다음</a></li>
                                                 </c:if>
                                             </ul>
-                                            <button type="button" class="btn btn-info"
-                                                onclick="location.href='${pageContext.request.contextPath}/freeboard/regist'">글쓰기</button>
                                         </div>
+                                    </c:if>
+                                    <c:if test="${fn:length(userInfo.userBoardList) <= 0}">
+                                    	<h2>아직 글을 작성하지 않았습니다.</h2>
                                     </c:if>
                                 </tbody>
                             </table>
@@ -175,4 +176,5 @@
         </div>
     </div>
 </section>
+
 <%@ include file="../include/footer.jsp" %>
